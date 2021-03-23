@@ -9,7 +9,7 @@ open class SRTConnection: NSObject {
     /// This instance connect to server(true) or not(false)
     @objc dynamic public private(set) var connected: Bool = false
 
-    var incomingSocket: SRTIncomingSocket?
+//    var incomingSocket: SRTIncomingSocket?
     var outgoingSocket: SRTOutgoingSocket?
     private var streams: [SRTStream] = []
 
@@ -34,9 +34,9 @@ open class SRTConnection: NSObject {
         outgoingSocket?.delegate = self
         ((try? outgoingSocket?.connect(addr, options: options)) as ()??)
 
-        incomingSocket = SRTIncomingSocket()
-        incomingSocket?.delegate = self
-        ((try? incomingSocket?.connect(addr, options: options)) as ()??)
+//        incomingSocket = SRTIncomingSocket()
+//        incomingSocket?.delegate = self
+//        ((try? incomingSocket?.connect(addr, options: options)) as ()??)
     }
 
     public func close() {
@@ -44,7 +44,7 @@ open class SRTConnection: NSObject {
             stream.close()
         }
         outgoingSocket?.close()
-        incomingSocket?.close()
+//        incomingSocket?.close()
     }
 
     public func attachStream(_ stream: SRTStream) {
@@ -69,9 +69,9 @@ open class SRTConnection: NSObject {
 extension SRTConnection: SRTSocketDelegate {
     // MARK: SRTSocketDelegate
     func status(_ socket: SRTSocket, status: SRT_SOCKSTATUS) {
-        guard let incomingSocket = incomingSocket, let outgoingSocket = outgoingSocket else {
+        guard /* let incomingSocket = incomingSocket, */ let outgoingSocket = outgoingSocket else {
             return
         }
-        connected = incomingSocket.status == SRTS_CONNECTED && outgoingSocket.status == SRTS_CONNECTED
+        connected = /* incomingSocket.status == SRTS_CONNECTED && */ outgoingSocket.status == SRTS_CONNECTED
     }
 }
