@@ -8,6 +8,8 @@ open class SRTConnection: NSObject {
     public private(set) var uri: URL?
     /// This instance connect to server(true) or not(false)
     @objc dynamic public private(set) var connected: Bool = false
+    /// This instance status
+    @objc dynamic public private(set) var status: SRT_SOCKSTATUS = SRTS_INIT
 
 //    var incomingSocket: SRTIncomingSocket?
     var outgoingSocket: SRTOutgoingSocket?
@@ -33,18 +35,12 @@ open class SRTConnection: NSObject {
         outgoingSocket = SRTOutgoingSocket()
         outgoingSocket?.delegate = self
         ((try? outgoingSocket?.connect(addr, options: options)) as ()??)
-
-//        incomingSocket = SRTIncomingSocket()
-//        incomingSocket?.delegate = self
-//        ((try? incomingSocket?.connect(addr, options: options)) as ()??)
     }
 
     public func close() {
         for stream in streams {
             stream.close()
         }
-        outgoingSocket?.close()
-//        incomingSocket?.close()
     }
 
     public func attachStream(_ stream: SRTStream) {
@@ -69,9 +65,10 @@ open class SRTConnection: NSObject {
 extension SRTConnection: SRTSocketDelegate {
     // MARK: SRTSocketDelegate
     func status(_ socket: SRTSocket, status: SRT_SOCKSTATUS) {
-        guard /* let incomingSocket = incomingSocket, */ let outgoingSocket = outgoingSocket else {
+        guard let outgoingSocket = outgoingSocket else {
             return
         }
-        connected = /* incomingSocket.status == SRTS_CONNECTED && */ outgoingSocket.status == SRTS_CONNECTED
+        self.connected = outgoingSocket.status == SRTS_CONNECTED
+        self.status = outgoingSocket.status
     }
 }
