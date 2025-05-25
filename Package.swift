@@ -10,7 +10,7 @@ let package = Package(
         .macOS(.v10_11)
     ],
     products: [
-        .library(name: "HaishinKit", targets: ["HaishinKit"])
+        .library(name: "SRTHaishinKit", targets: ["SRTHaishinKit"])
     ],
     dependencies: [
         .package(url: "https://github.com/shogo4405/Logboard.git", .exact("2.2.2"))
