@@ -17,7 +17,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "SwiftPMSupport"),
-        .target(name: "HaishinKit", dependencies: ["Logboard", "SwiftPMSupport"],
+        .target(name: "SRTHaishinKit", dependencies: ["Logboard", "SwiftPMSupport"],
                 path: "Sources",
                 sources: [
                     "Codec",
